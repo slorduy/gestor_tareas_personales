@@ -4,11 +4,11 @@ App móvil construida con Flutter para crear, organizar y hacer seguimiento de t
 
 ---
 
-## Screenshots
+## Capturas
 
-| Home – All | Home – To Do | Detalle |
+| Inicio – Todas las tareas | Inicio – Por hacer | Detalle |
 |:---:|:---:|:---:|
-| ![Home All](screenshots/home_all.png) | ![To Do](screenshots/home_todo.png) | ![Detalle](screenshots/task_detail.png) |
+| ![Inicio - todas las tareas](screenshots/home_all.png) | ![Inicio - por hacer](screenshots/home_todo.png) | ![Detalle](screenshots/task_detail.png) |
 
 | Nueva tarea | Editar tarea | Tema oscuro |
 |:---:|:---:|:---:|
@@ -23,7 +23,7 @@ App móvil construida con Flutter para crear, organizar y hacer seguimiento de t
 - **Editar** título y descripción de una tarea existente
 - **Eliminar** tareas con confirmación previa
 - **Avanzar estado** desde el menú contextual de cada tarjeta: `Por hacer → En proceso → Completado`
-- **Filtrar por estado** mediante tabs: All, To Do, In Progress, Done
+- **Filtrar por estado** mediante tabs: Todos, Por hacer, En proceso, Completado
 - **Tema oscuro / claro** con persistencia de la preferencia
 - **Persistencia local** con SharedPreferences: las tareas se conservan al cerrar la app
 
@@ -45,25 +45,35 @@ App móvil construida con Flutter para crear, organizar y hacer seguimiento de t
 lib/
 ├── core/
 │   ├── enums/
-│   │   └── task_states.dart       # Estados posibles de una tarea con color asociado
-│   ├── models/
-│   │   └── task.dart              # Modelo inmutable de tarea
-│   ├── providers/
-│   │   ├── preference_provicer.dart  # Provider de SharedPreferences (inyectado en main)
-│   │   ├── tasks_provider.dart    # Estado y lógica de la lista de tareas
-│   │   └── theme_provider.dart    # Estado del tema claro/oscuro
+│   │   └── task_states.dart           # Estados de tarea con color y clave de persistencia
+│   └── models/
+│       └── task.dart                  # Modelo inmutable de tarea
+├── data/
+│   ├── repositories/
+│   │   └── task_repository.dart       # Acceso a datos y construcción de nuevas tareas
 │   └── storage/
-│       └── preference_service.dart   # Abstracción sobre SharedPreferences
-├── screens/
-│   ├── home_screen.dart           # Pantalla principal con tabs por estado
-│   ├── add_task_screen.dart       # Formulario para crear una tarea
-│   ├── edit_task_screen.dart      # Formulario para editar una tarea existente
-│   └── task_detail_screen.dart    # Vista de detalle de una tarea
-├── theme/
-│   └── app_theme.dart             # Definición de temas claro y oscuro
-├── widgets/
-│   └── task_card.dart             # Tarjeta reutilizable para mostrar una tarea
-└── main.dart                      # Punto de entrada y configuración de providers
+│       └── preference_service.dart    # Abstracción sobre SharedPreferences
+├── presentation/
+│   ├── providers/
+│   │   ├── preference_provider.dart   # Provider de SharedPreferences (inyectado en main)
+│   │   ├── task_repository_provider.dart
+│   │   ├── task_selectors.dart        # Providers derivados filtrados por estado
+│   │   ├── tasks_provider.dart        # Estado y lógica de la lista de tareas
+│   │   └── theme_provider.dart        # Estado del tema claro/oscuro
+│   ├── screens/
+│   │   ├── home_screen.dart           # Pantalla principal con tabs por estado
+│   │   ├── add_task_screen.dart       # Formulario para crear una tarea
+│   │   ├── edit_task_screen.dart      # Formulario para editar una tarea existente
+│   │   └── task_detail_screen.dart    # Vista de detalle de una tarea
+│   ├── theme/
+│   │   └── app_theme.dart             # Definición de temas claro y oscuro
+│   └── widgets/
+│       ├── delete_task_dialog.dart    # Diálogo de confirmación de eliminación
+│       ├── task_badge.dart            # Chip de estado de la tarea
+│       ├── task_card.dart             # Tarjeta reutilizable para mostrar una tarea
+│       ├── task_form.dart             # Formulario compartido entre crear y editar
+│       └── task_list.dart             # Lista de tareas con estado vacío
+└── main.dart                          # Punto de entrada e inyección de dependencias
 ```
 
 ---
@@ -105,5 +115,7 @@ El avance es unidireccional. Una tarea completada no puede retroceder de estado.
 ## Decisiones de diseño
 
 - **Modelo inmutable:** `Task` tiene todos sus campos `final`. Cualquier modificación crea una nueva instancia, lo que hace los cambios trazables y evita mutaciones accidentales.
-- **Inyección de SharedPreferences:** Se inicializa en `main()` antes de `runApp` y se inyecta vía `ProviderScope.overrides`, desacoplando los providers del acceso directo a disco y facilitando tests.
-- **Color en el enum:** `TaskStates` lleva el color asociado directamente para evitar lógicas de mapeo dispersas en la UI.
+- **Separación de capas:** La lógica de negocio vive en `data/`, los providers en `presentation/providers/` y los widgets en `presentation/widgets/`, siguiendo una arquitectura por capas.
+- **Inyección de SharedPreferences:** Se inicializa en `main()` antes de `runApp` y se inyecta vía `ProviderScope.overrides`, desacoplando los providers del acceso directo a disco.
+- **Color en el enum:** `TaskStates` lleva el color y la clave de persistencia directamente para evitar mapeos dispersos en la UI y mantener compatibilidad con datos guardados si el texto visible cambia.
+- **Formulario compartido:** `TaskForm` es reutilizado por las pantallas de crear y editar, evitando duplicación de lógica de validación.
