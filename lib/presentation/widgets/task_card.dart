@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gestor_de_tareas_personales/core/enums/task_states.dart';
 import 'package:gestor_de_tareas_personales/core/models/task.dart';
-import 'package:gestor_de_tareas_personales/screens/task_detail_screen.dart';
+import 'package:gestor_de_tareas_personales/presentation/screens/task_detail_screen.dart';
+import 'package:gestor_de_tareas_personales/presentation/widgets/task_badge.dart';
 
-/// Tarjeta visual que representa una tarea en la lista.
-///
-/// Las acciones (editar, eliminar, avanzar estado) se exponen como callbacks
-/// opcionales para que el widget sea reutilizable en distintos contextos sin
-/// acoplarse directamente a ningún provider.
+/// Tarjeta visual de una tarea. Las acciones se exponen como callbacks
+/// opcionales para no acoplar el widget a ningún provider.
 class TaskCard extends StatelessWidget {
   final Task task;
   final VoidCallback? onEdit;
@@ -51,8 +49,7 @@ class TaskCard extends StatelessWidget {
           child: IntrinsicHeight(
             child: Row(
               children: [
-                // La barra de color izquierda es la señal visual más rápida
-                // del estado; el usuario identifica el estado sin leer el tag.
+                // La barra izquierda comunica el estado con color sin necesidad de leer el badge.
                 Container(width: 6, color: task.state.color),
                 const SizedBox(width: 16),
                 Expanded(
@@ -62,25 +59,7 @@ class TaskCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Tag de estado con color de fondo semitransparente
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: task.state.color.withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            task.state.label,
-                            style: TextStyle(
-                              color: task.state.color,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                        TaskBadge(task: task),
                         const SizedBox(height: 8),
                         Text(
                           task.title,
@@ -95,8 +74,7 @@ class TaskCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                // El menú contextual agrupa acciones secundarias para no
-                // saturar la card con múltiples botones visibles.
+                // El menú agrupa acciones secundarias para no saturar la card.
                 Padding(
                   padding: const EdgeInsets.only(top: 8, right: 4),
                   child: Align(
@@ -117,9 +95,8 @@ class TaskCard extends StatelessWidget {
                         }
                       },
                       itemBuilder: (context) => [
-                        // La opción de avance solo aparece si la tarea
-                        // aún no está completada.
-                        if (task.state != TaskStates.completado)
+                        // La opción solo aparece si la tarea aún no está completada.
+                        if (task.state != TaskStates.done)
                           const PopupMenuItem(
                             value: 'advance-task',
                             child: Row(
@@ -129,7 +106,7 @@ class TaskCard extends StatelessWidget {
                                   size: 20,
                                 ),
                                 SizedBox(width: 8),
-                                Text('Advance Task'),
+                                Text('Avanzar estado'),
                               ],
                             ),
                           ),
@@ -139,7 +116,7 @@ class TaskCard extends StatelessWidget {
                             children: [
                               Icon(Icons.edit_outlined, size: 20),
                               SizedBox(width: 8),
-                              Text('Edit'),
+                              Text('Editar'),
                             ],
                           ),
                         ),
@@ -154,7 +131,7 @@ class TaskCard extends StatelessWidget {
                               ),
                               SizedBox(width: 8),
                               Text(
-                                'Delete',
+                                'Eliminar',
                                 style: TextStyle(color: Colors.red),
                               ),
                             ],

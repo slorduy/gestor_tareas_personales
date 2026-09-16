@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gestor_de_tareas_personales/core/storage/preference_service.dart';
-import 'package:gestor_de_tareas_personales/core/providers/preference_provicer.dart';
+import 'package:gestor_de_tareas_personales/data/storage/preference_service.dart';
+import 'package:gestor_de_tareas_personales/presentation/providers/preference_provider.dart';
 
-/// Gestiona el [ThemeMode] activo y su persistencia.
-///
 /// Al construirse lee la preferencia guardada; si no existe usa
 /// [ThemeMode.system] para respetar la configuración del dispositivo.
 class ThemeNotifier extends Notifier<ThemeMode> {
@@ -20,7 +18,6 @@ class ThemeNotifier extends Notifier<ThemeMode> {
     return ThemeMode.system;
   }
 
-  /// Alterna entre modo claro y oscuro, y persiste la elección.
   /// Si el modo actual es [ThemeMode.system] se trata como light.
   void toggleTheme() {
     final prefs = ref.read(preferencesProvider);

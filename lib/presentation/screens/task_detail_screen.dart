@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestor_de_tareas_personales/core/models/task.dart';
+import 'package:gestor_de_tareas_personales/presentation/widgets/task_badge.dart';
 
 class TaskDetailScreen extends StatelessWidget {
   final Task task;
@@ -9,34 +10,20 @@ class TaskDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Task Detail')),
+      appBar: AppBar(title: const Text('Gestor de tareas')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Estado
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: task.state.color.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                task.state.label,
-                style: TextStyle(
-                  color: task.state.color,
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            TaskBadge(task: task),
 
             const SizedBox(height: 20),
 
             // Title
             const Text(
-              'Title',
+              'Título',
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -53,7 +40,7 @@ class TaskDetailScreen extends StatelessWidget {
 
             // Description
             const Text(
-              'Description',
+              'Descripción',
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -62,7 +49,9 @@ class TaskDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              task.description.isNotEmpty ? task.description : 'No description',
+              task.description.isNotEmpty
+                  ? task.description
+                  : 'Sin descripción',
               style: const TextStyle(fontSize: 16, height: 1.6),
             ),
           ],

@@ -4,9 +4,8 @@ import 'package:gestor_de_tareas_personales/core/enums/task_states.dart';
 
 /// Modelo inmutable que representa una tarea personal.
 ///
-/// Todos los campos son [final] para evitar mutaciones directas; cualquier
-/// cambio debe pasar por [TaskNotifier], que reemplaza la instancia completa
-/// en el estado. Esto hace que los cambios sean trazables y predecibles.
+/// Todos los campos son [final]; cualquier modificación reemplaza la instancia
+/// completa en [TaskNotifier], lo que hace los cambios trazables.
 class Task {
   final String id;
   final TaskStates state;
@@ -20,10 +19,8 @@ class Task {
     required this.id,
   });
 
-  /// Convierte la tarea a un mapa para serialización JSON.
-  /// El estado se guarda como su [TaskStates.persistedKey] para mantener
-  /// compatibilidad con datos ya almacenados, independientemente del
-  /// label visible que se muestre en la UI.
+  /// El estado se guarda con [TaskStates.persistedKey] en lugar del [label]
+  /// para que los datos en disco no se rompan si el texto visible cambia.
   Map<String, dynamic> toMap() {
     return {
       'id': id,
