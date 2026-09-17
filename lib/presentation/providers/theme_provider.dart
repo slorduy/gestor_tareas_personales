@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gestor_de_tareas_personales/data/storage/preference_service.dart';
 import 'package:gestor_de_tareas_personales/presentation/providers/preference_provider.dart';
 
-/// Al construirse lee la preferencia guardada; si no existe usa
-/// [ThemeMode.system] para respetar la configuración del dispositivo.
 class ThemeNotifier extends Notifier<ThemeMode> {
   final String _themeKey = PreferencesService.themeKey;
 
@@ -18,7 +16,6 @@ class ThemeNotifier extends Notifier<ThemeMode> {
     return ThemeMode.system;
   }
 
-  /// Si el modo actual es [ThemeMode.system] se trata como light.
   void toggleTheme() {
     final prefs = ref.read(preferencesProvider);
 

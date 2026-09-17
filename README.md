@@ -71,6 +71,7 @@ lib/
 │       ├── delete_task_dialog.dart    # Diálogo de confirmación de eliminación
 │       ├── task_badge.dart            # Chip de estado de la tarea
 │       ├── task_card.dart             # Tarjeta reutilizable para mostrar una tarea
+│       ├── task_list_builder.dart     # agrupa y crea la lista de tareas de acuerdo a la agrupacion por estado
 │       ├── task_form.dart             # Formulario compartido entre crear y editar
 │       └── task_list.dart             # Lista de tareas con estado vacío
 └── main.dart                          # Punto de entrada e inyección de dependencias
@@ -105,7 +106,7 @@ flutter run
 ## Flujo de estados de una tarea
 
 ```
-Por hacer  ──▶  En proceso  ──▶  Completado
+Por hacer  ──▶  En proceso  ──▶ Completado
 ```
 
 El avance es unidireccional. Una tarea completada no puede retroceder de estado.
@@ -119,3 +120,4 @@ El avance es unidireccional. Una tarea completada no puede retroceder de estado.
 - **Inyección de SharedPreferences:** Se inicializa en `main()` antes de `runApp` y se inyecta vía `ProviderScope.overrides`, desacoplando los providers del acceso directo a disco.
 - **Color en el enum:** `TaskStates` lleva el color y la clave de persistencia directamente para evitar mapeos dispersos en la UI y mantener compatibilidad con datos guardados si el texto visible cambia.
 - **Formulario compartido:** `TaskForm` es reutilizado por las pantallas de crear y editar, evitando duplicación de lógica de validación.
+ 

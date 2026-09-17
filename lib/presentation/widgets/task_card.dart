@@ -4,8 +4,6 @@ import 'package:gestor_de_tareas_personales/core/models/task.dart';
 import 'package:gestor_de_tareas_personales/presentation/screens/task_detail_screen.dart';
 import 'package:gestor_de_tareas_personales/presentation/widgets/task_badge.dart';
 
-/// Tarjeta visual de una tarea. Las acciones se exponen como callbacks
-/// opcionales para no acoplar el widget a ningún provider.
 class TaskCard extends StatelessWidget {
   final Task task;
   final VoidCallback? onEdit;

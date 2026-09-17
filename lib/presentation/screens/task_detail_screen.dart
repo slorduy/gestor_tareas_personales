@@ -16,12 +16,8 @@ class TaskDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Estado
             TaskBadge(task: task),
-
             const SizedBox(height: 20),
-
-            // Title
             const Text(
               'Título',
               style: TextStyle(
@@ -35,10 +31,7 @@ class TaskDetailScreen extends StatelessWidget {
               task.title,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-
             const SizedBox(height: 28),
-
-            // Description
             const Text(
               'Descripción',
               style: TextStyle(

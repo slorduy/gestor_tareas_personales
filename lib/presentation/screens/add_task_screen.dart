@@ -14,7 +14,6 @@ class AddTaskScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16.0),
         child: TaskForm(
           onSave: (title, description) {
-            // Mandamos únicamente los datos puros a la capa de negocio
             ref
                 .read(taskProvider.notifier)
                 .createAndSaveTask(title: title, description: description);

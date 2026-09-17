@@ -3,9 +3,6 @@ import 'dart:convert';
 import 'package:gestor_de_tareas_personales/core/enums/task_states.dart';
 
 /// Modelo inmutable que representa una tarea personal.
-///
-/// Todos los campos son [final]; cualquier modificación reemplaza la instancia
-/// completa en [TaskNotifier], lo que hace los cambios trazables.
 class Task {
   final String id;
   final TaskStates state;

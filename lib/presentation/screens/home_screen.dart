@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gestor_de_tareas_personales/core/models/task.dart';
 import 'package:gestor_de_tareas_personales/presentation/providers/task_selectors.dart';
 import 'package:gestor_de_tareas_personales/presentation/providers/tasks_provider.dart';
 import 'package:gestor_de_tareas_personales/presentation/providers/theme_provider.dart';
 import 'package:gestor_de_tareas_personales/presentation/screens/add_task_screen.dart';
-import 'package:gestor_de_tareas_personales/presentation/screens/edit_task_screen.dart';
-import 'package:gestor_de_tareas_personales/presentation/widgets/delete_task_dialog.dart';
-import 'package:gestor_de_tareas_personales/presentation/widgets/task_list.dart';
+import 'package:gestor_de_tareas_personales/presentation/widgets/task_list_builder.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -15,27 +12,6 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
-
-    Widget buildTaskList(List<Task> tasksList, [String? emptyMessage]) {
-      return TaskList(
-        tasks: tasksList,
-        onNextState: (id) => ref.read(taskProvider.notifier).advanceTask(id),
-        onEdit: (task) => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => EditTaskScreen(task: task)),
-        ),
-        onDelete: (task) => confirmDelete(
-          context,
-          ref,
-          'Eliminar tarea',
-          '¿Estás seguro de que deseas eliminar "${task.title}"?',
-          () {
-            ref.read(taskProvider.notifier).deleteTask(task.id);
-            Navigator.pop(context);
-          },
-        ),
-      );
-    }
 
     return DefaultTabController(
       length: 4,
@@ -51,7 +27,7 @@ class HomeScreen extends ConsumerWidget {
           label: const Text('Nueva tarea'),
         ),
         appBar: AppBar(
-          title: const Text('Task Manager'),
+          title: const Text('Mis tareas'),
           actions: [
             IconButton(
               onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
@@ -73,16 +49,10 @@ class HomeScreen extends ConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            buildTaskList(ref.watch(taskProvider), 'No tienes tareas aun'),
-            buildTaskList(ref.watch(toDoTasksProvider), 'Sin tareas por hacer'),
-            buildTaskList(
-              ref.watch(inProgressTasksProvider),
-              'Sin tareas en proceso',
-            ),
-            buildTaskList(
-              ref.watch(doneTasksProvider),
-              'Sin tareas completadas',
-            ),
+            TaskListBuilder(tasksList: ref.watch(taskProvider)),
+            TaskListBuilder(tasksList: ref.watch(toDoTasksProvider)),
+            TaskListBuilder(tasksList: ref.watch(inProgressTasksProvider)),
+            TaskListBuilder(tasksList: ref.watch(doneTasksProvider)),
           ],
         ),
       ),

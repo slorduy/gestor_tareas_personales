@@ -24,7 +24,7 @@ class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
       id: widget.task.id,
       title: title,
       description: description,
-      state: widget.task.state, // mantiene el estado actual
+      state: widget.task.state,
     );
 
     ref.read(taskProvider.notifier).updateTask(updatedTask);
