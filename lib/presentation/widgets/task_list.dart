@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gestor_de_tareas_personales/core/models/task.dart';
+import 'package:gestor_de_tareas_personales/core/models/task_model.dart';
 import 'package:gestor_de_tareas_personales/presentation/widgets/task_card.dart';
 
 class TaskList extends StatelessWidget {
-  final List<Task> tasks;
+  final List<TaskModel> tasks;
   final String emptyMessage;
   final void Function(String id) onNextState;
-  final void Function(Task task) onEdit;
-  final void Function(Task task) onDelete;
+  final void Function(TaskModel task) onEdit;
+  final void Function(TaskModel task) onDelete;
 
   const TaskList({
     super.key,
@@ -44,7 +44,7 @@ class TaskList extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       itemCount: tasks.length,
       itemBuilder: (context, index) {
-        final task = tasks[index];
+        final TaskModel task = tasks[index];
         return TaskCard(
           task: task,
           onNextState: () => onNextState(task.id),

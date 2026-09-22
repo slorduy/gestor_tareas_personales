@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gestor_de_tareas_personales/core/models/task.dart';
+import 'package:gestor_de_tareas_personales/core/models/task_model.dart';
 
 class TaskBadge extends StatelessWidget {
-  final Task task;
+  final TaskModel task;
   const TaskBadge({super.key, required this.task});
 
   @override

@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:gestor_de_tareas_personales/core/enums/task_states.dart';
 
 /// Modelo inmutable que representa una tarea personal.
-class Task {
+class TaskModel {
   final String id;
   final TaskStates state;
   final String title;
   final String description;
 
-  Task({
+  TaskModel({
     required this.state,
     required this.title,
     required this.description,
@@ -27,8 +27,8 @@ class Task {
     };
   }
 
-  factory Task.fromMap(Map<String, dynamic> map) {
-    return Task(
+  factory TaskModel.fromMap(Map<String, dynamic> map) {
+    return TaskModel(
       id: map['id'] ?? '',
       title: map['title'] ?? '',
       state: TaskStates.fromString(map['state'] ?? ''),
@@ -38,5 +38,6 @@ class Task {
 
   String toJson() => json.encode(toMap());
 
-  factory Task.fromJson(String source) => Task.fromMap(json.decode(source));
+  factory TaskModel.fromJson(String source) =>
+      TaskModel.fromMap(json.decode(source));
 }

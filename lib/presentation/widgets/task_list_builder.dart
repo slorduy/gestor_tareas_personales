@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gestor_de_tareas_personales/core/models/task.dart';
+import 'package:gestor_de_tareas_personales/core/models/task_model.dart';
 import 'package:gestor_de_tareas_personales/presentation/providers/tasks_provider.dart';
 import 'package:gestor_de_tareas_personales/presentation/screens/edit_task_screen.dart';
 import 'package:gestor_de_tareas_personales/presentation/widgets/delete_task_dialog.dart';
@@ -9,18 +9,18 @@ import 'package:gestor_de_tareas_personales/presentation/widgets/task_list.dart'
 class TaskListBuilder extends ConsumerWidget {
   const TaskListBuilder({super.key, required this.tasksList});
 
-  final List<Task> tasksList;
+  final List<TaskModel> tasksList;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return TaskList(
       tasks: tasksList,
       onNextState: (id) => ref.read(taskProvider.notifier).advanceTask(id),
-      onEdit: (task) => Navigator.push(
+      onEdit: (TaskModel task) => Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => EditTaskScreen(task: task)),
       ),
-      onDelete: (task) => confirmDelete(
+      onDelete: (TaskModel task) => confirmDelete(
         context,
         ref,
         'Eliminar tarea',
@@ -31,6 +31,5 @@ class TaskListBuilder extends ConsumerWidget {
         },
       ),
     );
-    ;
   }
 }

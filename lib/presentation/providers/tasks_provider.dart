@@ -1,19 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gestor_de_tareas_personales/core/enums/task_states.dart';
-import 'package:gestor_de_tareas_personales/core/models/task.dart';
+import 'package:gestor_de_tareas_personales/core/models/task_model.dart';
 import 'package:gestor_de_tareas_personales/data/repositories/task_repository.dart';
 import 'package:gestor_de_tareas_personales/presentation/providers/task_repository_provider.dart';
 
-class TaskNotifier extends Notifier<List<Task>> {
+class TaskNotifier extends Notifier<List<TaskModel>> {
   late final TaskRepository _repository;
 
   @override
-  List<Task> build() {
+  List<TaskModel> build() {
     _repository = ref.read(taskRepositoryProvider);
     return _repository.getTasks();
   }
 
-  /// Delega la creación del objeto [Task] al repositorio para centralizar
+  /// Delega la creación del objeto [TaskModel] al repositorio para centralizar
   /// la lógica de ID y estado inicial en una sola capa.
   void createAndSaveTask({required String title, required String description}) {
     final newTask = _repository.buildNewTask(
@@ -25,7 +25,7 @@ class TaskNotifier extends Notifier<List<Task>> {
     _repository.saveTasks(state);
   }
 
-  void updateTask(Task updatedTask) {
+  void updateTask(TaskModel updatedTask) {
     state = state.map((task) {
       return task.id == updatedTask.id ? updatedTask : task;
     }).toList();
@@ -45,7 +45,7 @@ class TaskNotifier extends Notifier<List<Task>> {
         TaskStates.inProcess => TaskStates.done,
         TaskStates.done => TaskStates.done,
       };
-      return Task(
+      return TaskModel(
         id: task.id,
         title: task.title,
         description: task.description,
@@ -56,6 +56,6 @@ class TaskNotifier extends Notifier<List<Task>> {
   }
 }
 
-final taskProvider = NotifierProvider<TaskNotifier, List<Task>>(
+final taskProvider = NotifierProvider<TaskNotifier, List<TaskModel>>(
   TaskNotifier.new,
 );

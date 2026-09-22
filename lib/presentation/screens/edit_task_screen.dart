@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gestor_de_tareas_personales/core/models/task.dart';
+import 'package:gestor_de_tareas_personales/core/models/task_model.dart';
 import 'package:gestor_de_tareas_personales/presentation/providers/tasks_provider.dart';
 import 'package:gestor_de_tareas_personales/presentation/widgets/task_form.dart';
 
 class EditTaskScreen extends ConsumerStatefulWidget {
-  final Task task;
+  final TaskModel task;
 
   const EditTaskScreen({super.key, required this.task});
 
@@ -20,7 +20,7 @@ class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
   }
 
   void _saveChanges(String title, String description) {
-    final updatedTask = Task(
+    final updatedTask = TaskModel(
       id: widget.task.id,
       title: title,
       description: description,

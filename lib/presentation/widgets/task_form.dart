@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestor_de_tareas_personales/core/models/task.dart';
+import 'package:gestor_de_tareas_personales/core/models/task_model.dart';
 
 class TaskForm extends StatefulWidget {
   const TaskForm({
@@ -10,7 +10,7 @@ class TaskForm extends StatefulWidget {
   });
   final void Function(String title, String description) onSave;
   final String buttonLabel;
-  final Task? task;
+  final TaskModel? task;
   @override
   State<TaskForm> createState() => _TaskFormState();
 }

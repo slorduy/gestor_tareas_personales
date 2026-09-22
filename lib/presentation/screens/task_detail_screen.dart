@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gestor_de_tareas_personales/core/models/task.dart';
+import 'package:gestor_de_tareas_personales/core/models/task_model.dart';
 import 'package:gestor_de_tareas_personales/presentation/widgets/task_badge.dart';
 
 class TaskDetailScreen extends StatelessWidget {
-  final Task task;
+  final TaskModel task;
 
   const TaskDetailScreen({super.key, required this.task});
 

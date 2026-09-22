@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:gestor_de_tareas_personales/core/models/task.dart';
+import 'package:gestor_de_tareas_personales/core/models/task_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesService {
@@ -21,7 +21,7 @@ class PreferencesService {
 
   /// Siempre reemplaza la lista completa porque [SharedPreferences]
   /// no soporta actualizaciones atómicas por ítem.
-  Future<void> saveTasks(List<Task> tasks) async {
+  Future<void> saveTaskModels(List<TaskModel> tasks) async {
     final List<Map<String, dynamic>> listaMapas = tasks
         .map((task) => task.toMap())
         .toList();
@@ -29,13 +29,13 @@ class PreferencesService {
     await _prefs.setString(tasksKey, jsonString);
   }
 
-  List<Task> getTasks() {
+  List<TaskModel> getTaskModels() {
     final String? jsonString = _prefs.getString(tasksKey);
     if (jsonString == null || jsonString.isEmpty) return [];
 
     final List<dynamic> decodedList = jsonDecode(jsonString);
     return decodedList
-        .map((map) => Task.fromMap(map as Map<String, dynamic>))
+        .map((map) => TaskModel.fromMap(map as Map<String, dynamic>))
         .toList();
   }
 }

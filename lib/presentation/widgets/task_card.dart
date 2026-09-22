@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gestor_de_tareas_personales/core/enums/task_states.dart';
-import 'package:gestor_de_tareas_personales/core/models/task.dart';
+import 'package:gestor_de_tareas_personales/core/models/task_model.dart';
 import 'package:gestor_de_tareas_personales/presentation/screens/task_detail_screen.dart';
 import 'package:gestor_de_tareas_personales/presentation/widgets/task_badge.dart';
 
 class TaskCard extends StatelessWidget {
-  final Task task;
+  final TaskModel task;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
   final VoidCallback? onNextState;
